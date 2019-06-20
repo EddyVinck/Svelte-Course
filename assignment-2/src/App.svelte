@@ -2,7 +2,20 @@
   export let pw = "";
   export let pwTooShort = false;
   export let pwTooLong = false;
-  export let savedPasswords = [];
+  export let savedPasswords = [
+    {
+      id: Math.random(),
+      password: "111111"
+    },
+    {
+      id: Math.random(),
+      password: "22222"
+    },
+    {
+      id: Math.random(),
+      password: "33333"
+    }
+  ];
   $: validPassword =
     pwTooLong === false && pwTooShort === false && pw.length > 0;
 
@@ -46,8 +59,8 @@
 <ul>
   {#each savedPasswords as password, index (password.id)}
     <li>
-      <button on:click={() => deletePassword(index)}>
-         {password.password}
+      <button on:click={deletePassword.bind(this, index)}>
+         {password.password}, id: {password.id}
       </button>
     </li>
   {/each}
