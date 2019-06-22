@@ -2,6 +2,7 @@
   import Header from "./ui/Header.svelte";
   import MeetupList from "./meetups/MeetupList.svelte";
   import TextInput from "./ui/TextInput.svelte";
+  import Button from "./ui/Button.svelte";
 
   let title = "My test meetup";
   let subtitle = "This is going to be so much fun!";
@@ -110,7 +111,7 @@
       on:input={event => {
         description = event.target.value;
       }} />
-    <button type="submit">Save</button>
+    <Button type="submit" text="Save" />
   </form>
   <MeetupList {meetups} />
 
