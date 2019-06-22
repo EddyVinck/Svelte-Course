@@ -23,5 +23,9 @@
 {/each}
 
 <Modal>
-  <h1>Hello Modal!</h1>
+  <div slot="header">
+    <h1>Hello Modal!</h1>
+  </div>
+  <p>This goes in the default slot!</p>
+  <button slot="footer">Confirm</button>
 </Modal>
