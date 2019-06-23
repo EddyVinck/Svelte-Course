@@ -24,13 +24,11 @@
   });
 
   beforeUpdate(() => {
-    // cleanup work
     console.log("2. beforeUpdate");
     autoScroll = agreed;
   });
 
   afterUpdate(() => {
-    // cleanup work
     console.log("3. afterUpdate");
 
     if (autoScroll) {

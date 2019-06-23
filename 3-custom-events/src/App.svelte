@@ -1,4 +1,5 @@
 <script>
+  import { tick } from "svelte";
   import Product from "./Product.svelte";
   import Modal from "./Modal.svelte";
 
@@ -18,6 +19,36 @@
   }
   function deleteProduct(event) {
     console.log(event.detail);
+  }
+
+  let text = "This is some dummy text";
+
+  function transformText(event) {
+    const tabKey = 9;
+    if (event.which !== tabKey) {
+      return;
+    }
+    event.preventDefault(); // don't move to the next element
+    const { selectionStart, selectionEnd, value } = event.target;
+
+    // text is bound to the text area
+    // this is done in the next micro-task in Svelte's own DOM update task
+    text =
+      value.slice(0, selectionStart) +
+      value.slice(selectionStart, selectionEnd).toUpperCase() +
+      value.slice(selectionEnd);
+
+    // doesn't work, Svelte updates the dom after this is executed rendering it useless.
+    // the cursor will be placed at the end and no text will be selected :(
+    event.target.selectionStart = selectionStart;
+    event.target.selectionEnd = selectionEnd;
+
+    // something like afterUpdate might seem suitable, but regular lifecycle methods cannot be called within a function. Tick can, however.
+    // Then will be executed after Svelte has executed its tasks
+    tick().then(() => {
+      event.target.selectionStart = selectionStart;
+      event.target.selectionEnd = selectionEnd;
+    });
   }
 </script>
 
@@ -44,3 +75,5 @@
     </button>
   </Modal>
 {/if}
+
+<textarea rows="5" value={text} on:keydown={transformText} />
