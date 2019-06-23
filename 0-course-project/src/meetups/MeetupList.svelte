@@ -22,8 +22,6 @@
   }
 </style>
 
-<h1>hello world</h1>
-
 <section>
   {#each meetups as meetup (meetup.id)}
     <MeetupItem
