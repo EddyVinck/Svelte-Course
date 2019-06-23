@@ -1,8 +1,43 @@
 <script>
-  import { createEventDispatcher } from "svelte";
+  import {
+    createEventDispatcher,
+    onMount,
+    onDestroy,
+    beforeUpdate,
+    afterUpdate
+  } from "svelte";
   const dispatch = createEventDispatcher();
 
   let agreed = false;
+  let autoScroll = false;
+
+  onMount(() => {
+    // do work such as fetching data asynchronously
+    console.log("4. onMount");
+  });
+
+  console.log("1. script executed");
+
+  onDestroy(() => {
+    // cleanup work
+    console.log("5. onDestroy");
+  });
+
+  beforeUpdate(() => {
+    // cleanup work
+    console.log("2. beforeUpdate");
+    autoScroll = agreed;
+  });
+
+  afterUpdate(() => {
+    // cleanup work
+    console.log("3. afterUpdate");
+
+    if (autoScroll) {
+      const m = document.querySelector(".modal");
+      m.scrollTo(0, m.scrollHeight);
+    }
+  });
 </script>
 
 <style>
@@ -22,7 +57,7 @@
     top: 10vh;
     left: 10%;
     width: 80%;
-    max-height: 80vh;
+    max-height: 15vh;
     background: white;
     border-radius: 5px;
     z-index: 100;
