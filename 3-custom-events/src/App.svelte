@@ -3,6 +3,7 @@
   import Modal from "./Modal.svelte";
 
   let showModal = false;
+  let modalIsClosable = false;
 
   export const products = [
     {
@@ -29,11 +30,17 @@
 {#if showModal}
   <Modal
     on:modal-cancel={() => (showModal = false)}
-    on:modal-close={() => (showModal = false)}>
+    on:modal-close={() => (showModal = false)}
+    let:didAgree={modalIsClosable}>
     <div slot="header">
       <h1>Hello Modal!</h1>
     </div>
     <p>This goes in the default slot!</p>
-    <button on:click={() => (showModal = false)} slot="footer">Confirm</button>
+    <button
+      slot="footer"
+      disabled={!modalIsClosable}
+      on:click={() => (showModal = false)}>
+      Confirm
+    </button>
   </Modal>
 {/if}
