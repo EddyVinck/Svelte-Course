@@ -163,5 +163,5 @@
 {#if href}
   <a {href}>{text}</a>
 {:else}
-  <button class={mode} {type}>{text}</button>
+  <button class={mode} {type} on:click>{text}</button>
 {/if}

@@ -23,7 +23,8 @@
       imageUrl:
         "https://images.pexels.com/photos/34676/pexels-photo.jpg?auto=format%2Ccompress&cs=tinysrgb&h=750&w=1260",
       address: "Marconilaan 16, Eindhoven",
-      contactEmail: "code@test.com"
+      contactEmail: "code@test.com",
+      isFavorite: false
     },
     {
       id: "m2",
@@ -34,7 +35,8 @@
       imageUrl:
         "https://images.pexels.com/photos/34676/pexels-photo.jpg?auto=format%2Ccompress&cs=tinysrgb&h=750&w=1260",
       address: "Kick Offices, Eindhoven",
-      contactEmail: "code@test.com"
+      contactEmail: "code@test.com",
+      isFavorite: false
     }
   ];
 
@@ -51,6 +53,16 @@
     };
 
     meetups = [newMeetup, ...meetups];
+  }
+
+  function handleToggleFavorite({ detail: id }) {
+    // spread it to make a copy instead of getting the reference
+    const updatedMeetup = { ...meetups.find(meetup => meetup.id === id) };
+    updatedMeetup.isFavorite = !updatedMeetup.isFavorite;
+    const meetupIndex = meetups.findIndex(meetup => meetup.id === id);
+    const updatedMeetups = [...meetups];
+    updatedMeetups[meetupIndex] = updatedMeetup;
+    meetups = updatedMeetups;
   }
 </script>
 
@@ -113,6 +125,6 @@
       }} />
     <Button type="submit" text="Save" />
   </form>
-  <MeetupList {meetups} />
+  <MeetupList {meetups} on:togglefavorite={handleToggleFavorite} />
 
 </main>
