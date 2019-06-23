@@ -1,9 +1,9 @@
 <script>
   export let type = "text";
-  export let controlType;
+  export let controlType = null;
   export let id;
   export let label;
-  export let rows;
+  export let rows = null;
   export let value;
 </script>
 
