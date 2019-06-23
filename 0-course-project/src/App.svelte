@@ -75,8 +75,7 @@
 
 <main>
   <div class="meetup-controls">
-    <Button text="New Meetup" on:click={() => (editMode = 'add')} />
-
+    <Button on:click={() => (editMode = 'add')}>Add Meetup</Button>
   </div>
   {#if editMode === 'add'}
     <EditMeetup on:saveevent={addMeetup} />
