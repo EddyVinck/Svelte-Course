@@ -19,10 +19,11 @@
       return;
     }
     // createdContacts.push({ will not work because Svelte cannot detect changes to the referenced array, it needs to be reassigned
+    // the = sign is the trigger for Svelte, because that changes the pointer
     createdContacts = [
       ...createdContacts,
       {
-        id: Math.random(),
+        id: Math.random(), // 🚫 just for the example, don't do this in production code
         name,
         jobTitle: title,
         imageUrl: image,
@@ -31,6 +32,7 @@
     ];
     formState = "done";
   }
+
   function deleteFirst() {
     createdContacts = createdContacts.slice(1);
   }
@@ -65,16 +67,18 @@
   </div>
 </div>
 
-<button on:click={addContact}>Add contact card</button>
+<button on:click={addContact}>Add contact</button>
+<!-- example buttons to indicate the necessity of the key -->
 <button on:click={deleteFirst}>Delete First</button>
 <button on:click={deleteLast}>Delete Last</button>
 
-{#if formState == 'invalid'}
+{#if formState === 'invalid'}
   <p>invalid input</p>
 {:else}
-  <p>Please enter some information and click the button</p>
+  <p>Please enter some information and click the "Add contact" button</p>
 {/if}
 
+<!-- (contact.id) is the key and has to be unique -->
 {#each createdContacts as contact, index (contact.id)}
   <h2>#{index + 1}</h2>
   <ContactCard
@@ -84,5 +88,5 @@
     userImage={contact.imageUrl} />
 {:else}
   <!-- The else case implies the array is empty -->
-  <p>Please start adding some contacts!</p>
+  <p style="font-size: 14px; color: #989898;">No contacts found.</p>
 {/each}
