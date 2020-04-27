@@ -1,6 +1,6 @@
 <script>
-  // Props set from a parent component
-  export let userName;
+  // Using `export` to allow passing down the value to this component from a parent component
+  export let userName = "";
   export let jobTitle = "";
   export let description = "";
   export let userImage = "";
@@ -63,7 +63,6 @@
   }
 </style>
 
-z
 <div class="contact-card">
   <header>
     <div class="thumb" class:thumb-placeholder={!userImage}>
@@ -75,6 +74,9 @@ z
     </div>
   </header>
   <div class="description">
-    <p> {description} </p>
+    <!-- TODO: ⚠ Sanitize the input! ⚠  -->
+    <p>
+      {@html description}
+    </p>
   </div>
 </div>

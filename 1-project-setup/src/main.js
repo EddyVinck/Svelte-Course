@@ -4,8 +4,8 @@ const app = new App({
   target: document.body,
   props: {
     name: "world",
-    age: 23
-  }
+    age: 18,
+  },
 });
 
 export default app;

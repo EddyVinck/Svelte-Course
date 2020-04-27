@@ -3,13 +3,15 @@
 
   export let name;
   export let title = "Developer";
-  export let description = "What a nerd";
+  export let description = "No description.";
   export let age;
-  export let image =
-    "https://media.licdn.com/dms/image/C5103AQHhLR-I799HmA/profile-displayphoto-shrink_200_200/0?e=1565827200&v=beta&t=FNnt_b3-GBMDD4q7ZqRPTSPHNHL92GzNobmm52bTows";
+  export let avatar = "";
 
-  // let upperCaseName; // not required
-  $: upperCaseName = name.toUpperCase();
+  // let formattedName; // not required
+  $: formattedName = name;
+  $: if (name.toUpperCase() === "EDDY VINCK") {
+    age = 24;
+  }
 
   function incrementAge() {
     age += 1;
@@ -29,10 +31,13 @@
   }
 </style>
 
-<h1>Hello {upperCaseName}, my age is {age}</h1>
-<button on:click={incrementAge}>Birthday!</button>
+<h1>Hello {formattedName}, my age is {age}</h1>
+<button on:click={incrementAge}>🎂 Birthday!</button>
 <button on:click={changeName}>Change name</button>
-<!-- <input type="text" value={name} on:input={nameInput} /> -->
+<!-- 
+  This is two-way binding without `bind`
+  <input type="text" value={name} on:input={nameInput} /> 
+-->
 <label>
   name
   <input type="text" bind:value={name} />
@@ -47,8 +52,13 @@
 </label>
 <label>
   image
-  <input type="text" bind:value={image} />
+  <input type="text" bind:value={avatar} />
 </label>
 
 <!-- Custom component -->
-<ContactCard userName={name} jobTitle={title} {description} userImage={image} />
+<!-- {description} is the same thing as description={description} -->
+<ContactCard
+  userName={formattedName}
+  jobTitle={title}
+  {description}
+  userImage={avatar} />
