@@ -1,9 +1,9 @@
 <script>
   export let type = "text";
-  export let controlType = null;
+  export let controlType = "input";
   export let id;
   export let label;
-  export let rows = null;
+  export let rows = 3;
   export let value;
 </script>
 
@@ -43,8 +43,9 @@
 <div class="form-control">
   <label for={id}>{label}</label>
   {#if controlType === 'textarea'}
+    <!-- on:input without a handler gets forwarded to the parent component -->
     <textarea {id} {value} on:input />
   {:else}
-    <input {type} {id} {value} on:input />
+    <input {type} {id} {value} {rows} on:input />
   {/if}
 </div>

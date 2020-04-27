@@ -16,7 +16,6 @@
   let contactEmail = "meetup@test.com";
 
   function submitForm() {
-    console.log("submit form");
     dispatch("saveevent", {
       title,
       subtitle,
@@ -38,51 +37,39 @@
   }
 </style>
 
-<Modal title="Edit meetup data" on:cancelmodal>
+<Modal title="New meetup" on:cancelmodal>
   <form on:submit|preventDefault={submitForm}>
     <TextInput
       id="title"
       label="Title"
       value={title}
-      on:input={event => {
-        title = event.target.value;
-      }} />
+      on:input={e => (title = e.target.value)} />
     <TextInput
       id="subtitle"
       label="Subtitle"
       value={subtitle}
-      on:input={event => {
-        subtitle = event.target.value;
-      }} />
+      on:input={e => (subtitle = e.target.value)} />
     <TextInput
       id="address"
       label="Address"
       value={address}
-      on:input={event => {
-        address = event.target.value;
-      }} />
+      on:input={e => (address = e.target.value)} />
     <TextInput
       id="imageUrl"
       label="Image URL"
       value={imageUrl}
-      on:input={event => {
-        imageUrl = event.target.value;
-      }} />
+      on:input={e => (imageUrl = e.target.value)} />
     <TextInput
       id="contactEmail"
       label="Contact Email"
       value={contactEmail}
-      on:input={event => {
-        contactEmail = event.target.value;
-      }} />
+      on:input={e => (contactEmail = e.target.value)} />
     <TextInput
       controlType="textarea"
       id="description"
       label="Description"
       value={description}
-      on:input={event => {
-        description = event.target.value;
-      }} />
+      on:input={e => (description = e.target.value)} />
   </form>
   <div slot="footer">
     <Button type="button" on:click={submitForm}>Save</Button>

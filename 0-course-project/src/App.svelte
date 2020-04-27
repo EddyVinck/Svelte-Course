@@ -1,5 +1,5 @@
 <script>
-  import Header from "./ui/Header.svelte";
+  import Header from "./ui/app-shell/Header.svelte";
   import MeetupList from "./meetups/MeetupList.svelte";
   import EditMeetup from "./meetups/EditMeetup.svelte";
   import TextInput from "./ui/TextInput.svelte";
@@ -53,7 +53,6 @@
 </style>
 
 <Header />
-
 <main>
   <div class="meetup-controls">
     <Button on:click={() => (editMode = 'add')}>Add Meetup</Button>

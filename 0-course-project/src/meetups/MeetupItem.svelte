@@ -47,10 +47,7 @@
   }
 
   h1.is-favorite {
-    background: #01a129;
-    color: white;
-    padding: 0 0.5rem;
-    border-radius: 5px;
+    text-decoration: underline;
   }
 
   h2 {
@@ -75,8 +72,8 @@
 
 <article>
   <header>
-    <h1>
-       {title}
+    <h1 class:is-favorite={isFavorite}>
+      {title}
       {#if isFavorite}
         <Badge>FAVORITE</Badge>
       {/if}
@@ -99,7 +96,7 @@
       on:click={() => {
         dispatch('togglefavorite', id);
       }}>
-      {isFavorite ? 'Unfavorite' : 'favorite'}
+      {isFavorite ? 'Unfavorite' : 'Favorite'}
     </Button>
   </footer>
 </article>
