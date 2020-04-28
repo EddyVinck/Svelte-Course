@@ -3,6 +3,7 @@
   export let href = null;
   export let mode = null;
   export let color = null;
+  export let disabled = false;
 </script>
 
 <style>
@@ -21,6 +22,7 @@
 
   button:focus {
     outline: none;
+    box-shadow: 0px 0px 4px 3px rgba(228, 154, 154, 0.9);
   }
 
   button:hover,
@@ -96,10 +98,6 @@
     text-decoration: none;
   }
 
-  button:focus {
-    outline: none;
-  }
-
   button:hover,
   button:active,
   a:hover,
@@ -165,7 +163,7 @@
     <slot />
   </a>
 {:else}
-  <button class="{mode} {color}" {type} on:click>
+  <button class="{mode} {color}" {type} {disabled} on:click>
     <slot />
   </button>
 {/if}

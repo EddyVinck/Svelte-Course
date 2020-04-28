@@ -5,6 +5,15 @@
   export let label;
   export let rows = null;
   export let value;
+  export let valid = true;
+  export let validMessage = `Please enter a valid ${label.toLowerCase()}.`;
+  export let touched = false;
+
+  function setTouched() {
+    touched = true;
+  }
+
+  $: shouldShowError = touched && !valid;
 </script>
 
 <style>
@@ -38,14 +47,37 @@
     width: 100%;
     margin: 0.25rem 0;
   }
+  .invalid {
+    border-color: red;
+    background-color: #ffcee3;
+  }
+  .error {
+    color: red;
+    margin: 0.25rem 0;
+  }
 </style>
 
 <div class="form-control">
   <label for={id}>{label}</label>
   {#if controlType === 'textarea'}
     <!-- on:input without a handler gets forwarded to the parent component -->
-    <textarea {id} {value} on:input />
+    <textarea
+      class:invalid={shouldShowError}
+      {id}
+      {value}
+      on:input
+      on:blur={setTouched} />
   {:else}
-    <input {type} {id} {value} {rows} on:input />
+    <input
+      class:invalid={shouldShowError}
+      {type}
+      {id}
+      {value}
+      {rows}
+      on:input
+      on:blur={setTouched} />
+  {/if}
+  {#if validMessage && shouldShowError}
+    <p class="error">{validMessage}</p>
   {/if}
 </div>

@@ -3,32 +3,101 @@
   import TextInput from "../ui/TextInput.svelte";
   import Button from "../ui/Button.svelte";
   import Modal from "../ui/Modal.svelte";
+  import { isEmpty, isValidEmail } from "../helpers/validation";
 
   const dispatch = createEventDispatcher();
-
-  let title = "My test meetup";
-  let subtitle = "This is going to be so much fun!";
-  let address = "Nerdstreet 34th";
-  let description =
-    "Listen to some nerds talking about tech and talk to some nerds about that tech afterwards. Also, Pizza! 🍕";
-  let imageUrl =
-    "https://images.pexels.com/photos/34676/pexels-photo.jpg?auto=format%2Ccompress&amp;cs=tinysrgb&amp;h=750&amp;w=1260";
-  let contactEmail = "meetup@test.com";
-
-  function submitForm() {
-    dispatch("save", {
-      title,
-      subtitle,
-      address,
-      description,
-      imageUrl,
-      contactEmail
-    });
-  }
-
   function cancel() {
     dispatch("cancelmodal");
   }
+
+  // this approach is a bit different from the course
+  let title = {
+    id: "title",
+    label: "Title",
+    value: "",
+    valid: false
+  };
+  let subtitle = {
+    id: "subtitle",
+    label: "Subtitle",
+    value: "",
+    valid: false
+  };
+  let address = {
+    id: "address",
+    label: "Address",
+    value: "",
+    valid: false
+  };
+  let description = {
+    id: "description",
+    label: "description",
+    value: "",
+    valid: false
+  };
+  let imageUrl = {
+    id: "image",
+    label: "image",
+    value:
+      "https://images.pexels.com/photos/34676/pexels-photo.jpg?auto=format%2Ccompress&amp;cs=tinysrgb&amp;h=750&amp;w=1260",
+    valid: false
+  };
+  let contactEmail = {
+    id: "contactEmail",
+    label: "Contact email",
+    value: "meetup@test.com",
+    valid: false
+  };
+
+  function submitForm() {
+    if (isFormValid) {
+      dispatch("save", {
+        title: title.value,
+        subtitle: subtitle.value,
+        address: address.value,
+        description: description.value,
+        imageUrl: imageUrl.value,
+        contactEmail: contactEmail.value
+      });
+    }
+  }
+
+  function setValue(e, formField, valueProp = "value") {
+    return { ...formField, [valueProp]: e.target.value };
+  }
+
+  // validation updates
+  $: title = {
+    ...title,
+    valid: !isEmpty(title.value)
+  };
+  $: subtitle = {
+    ...subtitle,
+    valid: !isEmpty(subtitle.value)
+  };
+  $: address = {
+    ...address,
+    valid: !isEmpty(address.value)
+  };
+  $: imageUrl = {
+    ...imageUrl,
+    valid: !isEmpty(imageUrl.value)
+  };
+  $: contactEmail = {
+    ...contactEmail,
+    valid: isValidEmail(contactEmail.value)
+  };
+  $: description = {
+    ...description,
+    valid: !isEmpty(description.value)
+  };
+  $: isFormValid =
+    title.valid &&
+    subtitle.valid &&
+    address.valid &&
+    imageUrl.valid &&
+    contactEmail.valid &&
+    description.valid;
 </script>
 
 <style>
@@ -39,40 +108,26 @@
 
 <Modal title="New meetup" on:cancelmodal>
   <form on:submit|preventDefault={submitForm}>
+    <TextInput {...title} on:input={e => (title = setValue(e, title))} />
     <TextInput
-      id="title"
-      label="Title"
-      value={title}
-      on:input={e => (title = e.target.value)} />
+      {...subtitle}
+      on:input={e => (subtitle = setValue(e, subtitle))} />
+    <TextInput {...address} on:input={e => (address = setValue(e, address))} />
     <TextInput
-      id="subtitle"
-      label="Subtitle"
-      value={subtitle}
-      on:input={e => (subtitle = e.target.value)} />
+      {...imageUrl}
+      on:input={e => (imageUrl = setValue(imageUrl, e))} />
     <TextInput
-      id="address"
-      label="Address"
-      value={address}
-      on:input={e => (address = e.target.value)} />
+      {...contactEmail}
+      on:input={e => (contactEmail = setValue(e, contactEmail))} />
     <TextInput
-      id="imageUrl"
-      label="Image URL"
-      value={imageUrl}
-      on:input={e => (imageUrl = e.target.value)} />
-    <TextInput
-      id="contactEmail"
-      label="Contact Email"
-      value={contactEmail}
-      on:input={e => (contactEmail = e.target.value)} />
-    <TextInput
+      {...description}
       controlType="textarea"
-      id="description"
-      label="Description"
-      value={description}
-      on:input={e => (description = e.target.value)} />
+      on:input={e => (description = setValue(e, description))} />
   </form>
   <div slot="footer">
-    <Button type="button" on:click={submitForm}>Save</Button>
+    <Button type="button" disabled={!isFormValid} on:click={submitForm}>
+      Save
+    </Button>
     <Button type="button" mode="outline" on:click={cancel}>Cancel</Button>
   </div>
 </Modal>
