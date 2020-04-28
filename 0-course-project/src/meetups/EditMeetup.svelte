@@ -108,21 +108,25 @@
 
 <Modal title="New meetup" on:cancelmodal>
   <form on:submit|preventDefault={submitForm}>
-    <TextInput {...title} on:input={e => (title = setValue(e, title))} />
+    <TextInput
+      {...title}
+      on:input={event => (title = setValue(event, title))} />
     <TextInput
       {...subtitle}
-      on:input={e => (subtitle = setValue(e, subtitle))} />
-    <TextInput {...address} on:input={e => (address = setValue(e, address))} />
+      on:input={event => (subtitle = setValue(event, subtitle))} />
+    <TextInput
+      {...address}
+      on:input={event => (address = setValue(event, address))} />
     <TextInput
       {...imageUrl}
-      on:input={e => (imageUrl = setValue(imageUrl, e))} />
+      on:input={event => (imageUrl = setValue(event, imageUrl))} />
     <TextInput
       {...contactEmail}
-      on:input={e => (contactEmail = setValue(e, contactEmail))} />
+      on:input={event => (contactEmail = setValue(event, contactEmail))} />
     <TextInput
       {...description}
       controlType="textarea"
-      on:input={e => (description = setValue(e, description))} />
+      on:input={event => (description = setValue(event, description))} />
   </form>
   <div slot="footer">
     <Button type="button" disabled={!isFormValid} on:click={submitForm}>
