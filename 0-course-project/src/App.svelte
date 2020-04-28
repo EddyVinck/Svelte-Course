@@ -32,9 +32,9 @@
     // spread it to make a copy instead of getting the reference
     const updatedMeetup = { ...meetups.find(meetup => meetup.id === id) };
     updatedMeetup.isFavorite = !updatedMeetup.isFavorite;
-    const meetupIndex = meetups.findIndex(meetup => meetup.id === id);
+    const idx = meetups.findIndex(meetup => meetup.id === id);
     const updatedMeetups = [...meetups];
-    updatedMeetups[meetupIndex] = updatedMeetup;
+    updatedMeetups[idx] = updatedMeetup;
     meetups = updatedMeetups;
   }
 
@@ -55,7 +55,7 @@
 <Header />
 <main>
   <div class="meetup-controls">
-    <Button on:click={() => (editMode = 'add')}>Add Meetup</Button>
+    <Button on:click={() => (editMode = 'add')}>New Meetup</Button>
   </div>
   {#if editMode === 'add'}
     <EditMeetup on:cancelmodal={cancelEdit} on:saveevent={addMeetup} />

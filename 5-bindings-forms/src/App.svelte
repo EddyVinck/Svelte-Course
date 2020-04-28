@@ -1,4 +1,7 @@
 <script>
+  /**
+   * Module 8 of the course
+   */
   import CustomInput from "./CustomInput.svelte";
   import Toggle from "./Toggle.svelte";
   let val = "Eddy";

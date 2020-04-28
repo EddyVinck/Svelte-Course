@@ -3,7 +3,7 @@
   export let controlType = "input";
   export let id;
   export let label;
-  export let rows = 3;
+  export let rows = null;
   export let value;
 </script>
 
