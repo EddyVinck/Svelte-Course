@@ -16,7 +16,7 @@
   let contactEmail = "meetup@test.com";
 
   function submitForm() {
-    dispatch("saveevent", {
+    dispatch("save", {
       title,
       subtitle,
       address,
