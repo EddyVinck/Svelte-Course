@@ -1,5 +1,11 @@
 <script>
-  import { createEventDispatcher } from "svelte";
+  import {
+    createEventDispatcher,
+    onMount,
+    onDestroy,
+    beforeUpdate,
+    afterUpdate
+  } from "svelte";
 
   const dispatch = createEventDispatcher();
 
@@ -9,6 +15,16 @@
   function closeModal() {
     dispatch("cancelmodal");
   }
+
+  /** life cycles
+   *  great for loading data or for side effects like changing scroll position''s'
+   */
+  onMount(() => console.log("onMount")); // -> (3) once this entire script has finished executing (mount is finished)
+  onDestroy(() => console.log("onDestroy")); // -> before unmount
+  beforeUpdate(() => console.log("beforeUpdate")); // (2)
+  afterUpdate(() => console.log("afterUpdate"));
+
+  console.log("script executed"); // -> (1) every time them modal appears
 </script>
 
 <style>
