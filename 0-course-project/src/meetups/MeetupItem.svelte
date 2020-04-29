@@ -21,6 +21,9 @@
     console.log("click showing detail");
     dispatch("showDetails", id);
   }
+  function handleEdit() {
+    dispatch("edit", id);
+  }
 </script>
 
 <style>
@@ -96,6 +99,7 @@
     <p>{description}</p>
   </div>
   <footer>
+    <Button on:click={handleEdit} mode="outline">Edit</Button>
     <Button href="mailto:{email}">Contact</Button>
     <Button on:click={handleShowDetails}>Show Details</Button>
     <Button

@@ -11,6 +11,8 @@
     dispatch("cancelmodal");
   }
 
+  export let id = null;
+
   // this approach is a bit different from the course
   let title = {
     id: "title",
@@ -50,6 +52,19 @@
     valid: false
   };
 
+  let isEditingMeetup = false;
+  if (id) {
+    isEditingMeetup = meetups.findById(id);
+    if (isEditingMeetup) {
+      title.value = isEditingMeetup.title;
+      subtitle.value = isEditingMeetup.subtitle;
+      address.value = isEditingMeetup.address;
+      description.value = isEditingMeetup.description;
+      imageUrl.value = isEditingMeetup.imageUrl;
+      contactEmail.value = isEditingMeetup.contactEmail;
+    }
+  }
+
   function submitForm() {
     if (isFormValid) {
       const meetupData = {
@@ -61,7 +76,12 @@
         address: address.value
       };
 
-      meetups.createOne(meetupData);
+      if (isEditingMeetup) {
+        meetups.findByIdAndUpdate(id, meetupData);
+      } else {
+        // the meetup is new
+        meetups.createOne(meetupData);
+      }
       dispatch("save");
     }
   }

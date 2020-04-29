@@ -16,13 +16,21 @@ function createMeetups() {
       });
     },
     findById: (id) => {
-      console.log(`looking for meetup with id "${id}"`);
       let meetup = {};
       const unsubscribe = store.subscribe((meetups) => {
-        meetup = meetups.find((m) => m.id === id);
+        const match = meetups.find((m) => m.id === id);
+        meetup = match;
       });
       unsubscribe();
       return meetup;
+    },
+    findByIdAndUpdate: (id, updates) => {
+      store.update((meetups) => {
+        return meetups.map((meetup) => {
+          if (meetup.id !== id) return meetup;
+          return { ...meetup, ...updates };
+        });
+      });
     },
     findByIdAndToggleFavorite: (id) => {
       // This is a different approach than the course.

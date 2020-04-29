@@ -11,12 +11,14 @@
   let page = "overview"; // temporary fake routing
   let pageData = {};
 
-  function handleAddMeetup() {
+  function handleSaveMeetup() {
     editMode = false;
+    pageData = {};
   }
 
   function cancelEdit() {
     editMode = false;
+    pageData = {};
   }
 
   function showDetails({ detail: id }) {
@@ -28,6 +30,10 @@
   function goHome() {
     page = "overview";
     pageData = {};
+  }
+  function handleEdit({ detail: id }) {
+    editMode = "edit";
+    pageData.id = id;
   }
 </script>
 
@@ -44,12 +50,18 @@
 <main>
   {#if page === 'overview'}
     <div class="meetup-controls">
-      <Button on:click={() => (editMode = 'add')}>New Meetup</Button>
+      <Button on:click={() => (editMode = 'edit')}>New Meetup</Button>
     </div>
-    {#if editMode === 'add'}
-      <EditMeetup on:cancelmodal={cancelEdit} on:save={handleAddMeetup} />
+    {#if editMode === 'edit'}
+      <EditMeetup
+        id={pageData.id}
+        on:cancelmodal={cancelEdit}
+        on:save={handleSaveMeetup} />
     {/if}
-    <MeetupList meetups={$meetups} on:showDetails={showDetails} />
+    <MeetupList
+      on:edit={handleEdit}
+      meetups={$meetups}
+      on:showDetails={showDetails} />
   {:else if page === 'details' && pageData.id}
     <MeetupDetail id={pageData.id} on:close={goHome} />
   {:else}

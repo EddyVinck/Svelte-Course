@@ -1,5 +1,9 @@
 {
   // Code spell checker https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker
-  "cSpell.words": ["roboto", "mailto"],
+  "cSpell.words": [
+    "Unfavorite",
+    "mailto",
+    "roboto"
+  ],
   "cSpell.allowCompoundWords": true
 }

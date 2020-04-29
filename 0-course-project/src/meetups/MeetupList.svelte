@@ -33,7 +33,8 @@
       address={meetup.address}
       email={meetup.contactEmail}
       isFavorite={meetup.isFavorite}
-      on:showDetails />
+      on:showDetails
+      on:edit />
   {:else}
     <p>No meetups available</p>
   {/each}
