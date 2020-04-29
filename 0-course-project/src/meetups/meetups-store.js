@@ -15,6 +15,15 @@ function createMeetups() {
         ];
       });
     },
+    findById: (id) => {
+      console.log(`looking for meetup with id "${id}"`);
+      let meetup = {};
+      const unsubscribe = store.subscribe((meetups) => {
+        meetup = meetups.find((m) => m.id === id);
+      });
+      unsubscribe();
+      return meetup;
+    },
     findByIdAndToggleFavorite: (id) => {
       // This is a different approach than the course.
       // This is much better than the previous verbose implementation (cleaner and fewer loops)
