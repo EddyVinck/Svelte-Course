@@ -13,7 +13,24 @@ const initialValue = [
   },
 ];
 
-export const cartStore = writable([...initialValue], () => {
-  console.log("new cart item");
-  return () => console.log("no more cart items");
-});
+function createCart() {
+  const store = writable([...initialValue], () => {
+    console.log("new cart item");
+    return () => console.log("no more cart items");
+  });
+
+  return {
+    subscribe: store.subscribe,
+    createOne: (item) => {
+      store.update((items) => {
+        if (!items.find((i) => i.id === item.id)) return [...items, item];
+        return [...items];
+      });
+    },
+    findByIdAndRemove: (id) => {
+      store.update((items) => items.filter((i) => i.id !== id));
+    },
+  };
+}
+
+export const cartStore = createCart();

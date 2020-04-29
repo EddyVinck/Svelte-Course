@@ -24,9 +24,7 @@
   }
 
   function removeFromCart() {
-    cartStore.update(items => {
-      return items.filter(item => item.id !== id);
-    });
+    cartStore.findByIdAndRemove(id);
   }
 </script>
 

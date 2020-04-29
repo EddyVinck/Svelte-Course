@@ -8,9 +8,7 @@
   export let description = "";
 
   function addToCart() {
-    cartStore.update(items => {
-      return [...items, { id, title, price }];
-    });
+    cartStore.createOne({ id, title, price });
   }
 </script>
 
