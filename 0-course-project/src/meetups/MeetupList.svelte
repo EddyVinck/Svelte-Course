@@ -32,8 +32,7 @@
       description={meetup.description}
       address={meetup.address}
       email={meetup.contactEmail}
-      isFavorite={meetup.isFavorite}
-      on:togglefavorite />
+      isFavorite={meetup.isFavorite} />
   {:else}
     <p>No meetups available</p>
   {/each}

@@ -4,38 +4,12 @@
   import EditMeetup from "./meetups/EditMeetup.svelte";
   import TextInput from "./ui/TextInput.svelte";
   import Button from "./ui/Button.svelte";
-
-  import { exampleMeetups } from "./data/example-meetups.js";
+  import { meetupsStore as meetups } from "./meetups/meetups-store.js";
 
   let editMode = null;
 
-  let meetups = [...exampleMeetups];
-
-  function addMeetup({ detail }) {
-    console.log(event);
-
-    const newMeetup = {
-      id: Math.random().toString(),
-      title: detail.title,
-      subtitle: detail.subtitle,
-      description: detail.description,
-      imageUrl: detail.imageUrl,
-      contactEmail: detail.contactEmail,
-      address: detail.address
-    };
-
-    meetups = [newMeetup, ...meetups];
+  function handleAddMeetup() {
     editMode = false;
-  }
-
-  function handleToggleFavorite({ detail: id }) {
-    // spread it to make a copy instead of getting the reference
-    const updatedMeetup = { ...meetups.find(meetup => meetup.id === id) };
-    updatedMeetup.isFavorite = !updatedMeetup.isFavorite;
-    const idx = meetups.findIndex(meetup => meetup.id === id);
-    const updatedMeetups = [...meetups];
-    updatedMeetups[idx] = updatedMeetup;
-    meetups = updatedMeetups;
   }
 
   function cancelEdit() {
@@ -58,8 +32,8 @@
     <Button on:click={() => (editMode = 'add')}>New Meetup</Button>
   </div>
   {#if editMode === 'add'}
-    <EditMeetup on:cancelmodal={cancelEdit} on:save={addMeetup} />
+    <EditMeetup on:cancelmodal={cancelEdit} on:save={handleAddMeetup} />
   {/if}
-  <MeetupList {meetups} on:togglefavorite={handleToggleFavorite} />
+  <MeetupList meetups={$meetups} />
 
 </main>
