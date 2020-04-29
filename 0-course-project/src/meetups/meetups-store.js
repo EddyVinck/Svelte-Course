@@ -24,11 +24,18 @@ function createMeetups() {
       unsubscribe();
       return meetup;
     },
-    findByIdAndUpdate: (id, updates) => {
+    findByIdAndUpdate: (id, updates = {}) => {
       store.update((meetups) => {
         return meetups.map((meetup) => {
           if (meetup.id !== id) return meetup;
           return { ...meetup, ...updates };
+        });
+      });
+    },
+    findByIdAndDelete: (id) => {
+      store.update((meetups) => {
+        return meetups.filter((meetup) => {
+          if (meetup.id !== id) return meetup;
         });
       });
     },

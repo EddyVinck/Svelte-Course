@@ -122,6 +122,11 @@
     imageUrl.valid &&
     contactEmail.valid &&
     description.valid;
+
+  function handleDelete() {
+    meetups.findByIdAndDelete(id);
+    dispatch("save");
+  }
 </script>
 
 <style>
@@ -157,5 +162,8 @@
       Save
     </Button>
     <Button type="button" mode="outline" on:click={cancel}>Cancel</Button>
+    {#if id}
+      <Button on:click={handleDelete} mode="outline">Delete</Button>
+    {/if}
   </div>
 </Modal>
