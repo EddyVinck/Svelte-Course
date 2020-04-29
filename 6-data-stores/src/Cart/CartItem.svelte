@@ -1,19 +1,32 @@
 <script>
+  import { cartStore } from "./cart-store.js";
+  import { productsStore as products } from "../Products/products-store.js";
   import Button from "../UI/Button.svelte";
 
   export let title;
   export let price;
   export let id;
 
+  let description = "No description available.";
   let showDescription = false;
+  // let fetchedProduct = []
+
+  // products.subscribe(prods => {
+  //   fetchedProduct = prods
+  // })
 
   function displayDescription() {
     showDescription = !showDescription;
+    const unsubscribe = products.subscribe(prods => {
+      description = prods.find(p => p.id === id).description;
+    });
+    unsubscribe();
   }
 
   function removeFromCart() {
-    // ...
-    console.log("Removing...");
+    cartStore.update(items => {
+      return items.filter(item => item.id !== id);
+    });
   }
 </script>
 

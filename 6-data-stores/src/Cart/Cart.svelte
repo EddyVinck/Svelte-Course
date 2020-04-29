@@ -1,18 +1,24 @@
 <script>
+  import { onDestroy } from "svelte";
+  import { cartStore } from "./cart-store.js";
   import CartItem from "./CartItem.svelte";
 
-  export let items = [
-    {
-      id: "p1",
-      title: "Test",
-      price: 9.99
-    },
-    {
-      id: "p2",
-      title: "Test",
-      price: 9.99
-    }
-  ];
+  let items = [];
+
+  /**
+   * Instead of all this boilerplate, you can also use $cartStore instead of `items` in the loop.
+   * This causes Svelte to declare the prefixed variable, and set up a store subscription that will be unsubscribed when appropriate.
+   * See: https://svelte.dev/docs#4_Prefix_stores_with_$_to_access_their_values 👌
+   */
+  // const unsubscribe = cartStore.subscribe(storeItems => {
+  //   console.log(storeItems);
+  //   items = storeItems;
+  // });
+
+  // // clean up the store to avoid memory leaks
+  // onDestroy(() => {
+  //   if (unsubscribe && typeof unsubscribe === "function") unsubscribe();
+  // });
 </script>
 
 <style>
@@ -33,7 +39,7 @@
 <section>
   <h1>Cart</h1>
   <ul>
-    {#each items as item (item.id)}
+    {#each $cartStore as item (item.id)}
       <CartItem id={item.id} title={item.title} price={item.price} />
     {:else}
       <p>No items in cart yet!</p>
