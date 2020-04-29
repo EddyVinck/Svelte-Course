@@ -2,8 +2,13 @@
   import { onDestroy } from "svelte";
   import { cartStore } from "./cart-store.js";
   import CartItem from "./CartItem.svelte";
+  import { timerStore as timer } from "../UI/timer-store.js";
 
   let items = [];
+
+  const unsubscribe = timer.subscribe(count => {
+    console.log(`Cart: ${count}`);
+  });
 
   /**
    * Instead of all this boilerplate, you can also use $cartStore instead of `items` in the loop.
@@ -15,10 +20,10 @@
   //   items = storeItems;
   // });
 
-  // // clean up the store to avoid memory leaks
-  // onDestroy(() => {
-  //   if (unsubscribe && typeof unsubscribe === "function") unsubscribe();
-  // });
+  // clean up the store to avoid memory leaks
+  onDestroy(() => {
+    if (unsubscribe && typeof unsubscribe === "function") unsubscribe();
+  });
 </script>
 
 <style>
