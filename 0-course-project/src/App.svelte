@@ -31,6 +31,9 @@
     page = "overview";
     pageData = {};
   }
+  function handleCreate() {
+    editMode = "edit";
+  }
   function handleEdit({ detail: id }) {
     editMode = "edit";
     pageData.id = id;
@@ -49,9 +52,6 @@
 <Header />
 <main>
   {#if page === 'overview'}
-    <div class="meetup-controls">
-      <Button on:click={() => (editMode = 'edit')}>New Meetup</Button>
-    </div>
     {#if editMode === 'edit'}
       <EditMeetup
         id={pageData.id}
@@ -60,6 +60,7 @@
     {/if}
     <MeetupList
       on:edit={handleEdit}
+      on:create={handleCreate}
       meetups={$meetups}
       on:showDetails={showDetails} />
   {:else if page === 'details' && pageData.id}

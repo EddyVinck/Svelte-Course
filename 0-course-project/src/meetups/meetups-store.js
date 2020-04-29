@@ -9,6 +9,7 @@ function createMeetups() {
     subscribe: store.subscribe,
     createOne: (newMeetup) => {
       store.update((meetups) => {
+        // Todo: validate newMeetup shape
         return [
           { id: Math.random(), isFavorite: false, ...newMeetup },
           ...meetups,
@@ -28,6 +29,7 @@ function createMeetups() {
       store.update((meetups) => {
         return meetups.map((meetup) => {
           if (meetup.id !== id) return meetup;
+          // Todo: validate updatedMeetup shape
           return { ...meetup, ...updates };
         });
       });
@@ -45,6 +47,7 @@ function createMeetups() {
       store.update((meetups) => {
         return meetups.map((meetup) => {
           if (meetup.id !== id) return meetup;
+          // Todo: validate meetup shape
           meetup.isFavorite = !meetup.isFavorite;
           return meetup;
         });
