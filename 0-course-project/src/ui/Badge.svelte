@@ -1,5 +1,5 @@
 <script>
-  import { slide } from "svelte/transition";
+  import { scale } from "svelte/transition";
 </script>
 
 <style>
@@ -17,6 +17,6 @@
   }
 </style>
 
-<span transition:slide>
+<span transition:scale>
   <slot />
 </span>
