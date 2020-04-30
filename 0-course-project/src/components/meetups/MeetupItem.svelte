@@ -5,7 +5,7 @@
   import { meetupsStore as meetups } from "./meetups-store.js";
   import Button from "../ui/Button.svelte";
   import Badge from "../ui/Badge.svelte";
-  import { firebase } from "../data/firebase.js";
+  import { firebase } from "../../config/firebase.js";
 
   export let id = "";
   export let title = "";
@@ -117,7 +117,7 @@
   <footer>
     <Button on:click={handleEdit} mode="outline">Edit</Button>
     <Button href="mailto:{email}">Contact</Button>
-    <Button on:click={handleShowDetails}>Show Details</Button>
+    <Button href={`/meetup/${id}`}>Show Details</Button>
     <Button
       mode="outline"
       color={isFavorite ? null : 'success'}

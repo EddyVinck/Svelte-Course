@@ -4,8 +4,8 @@
   import TextInput from "../ui/TextInput.svelte";
   import Button from "../ui/Button.svelte";
   import Modal from "../ui/Modal.svelte";
-  import { isEmpty, isValidEmail } from "../helpers/validation";
-  import { firebase } from "../data/firebase.js";
+  import { isEmpty, isValidEmail } from "../../helpers/validation";
+  import { firebase } from "../../config/firebase.js";
 
   const dispatch = createEventDispatcher();
   function cancel() {

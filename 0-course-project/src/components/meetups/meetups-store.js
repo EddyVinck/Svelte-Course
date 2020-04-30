@@ -1,5 +1,5 @@
 import { writable } from "svelte/store";
-import { exampleMeetups as _dummyData } from "../data/example-meetups.js";
+import { exampleMeetups as _dummyData } from "../../helpers/example-meetups.js";
 
 function createMeetups() {
   const store = writable([], () => {
@@ -7,6 +7,7 @@ function createMeetups() {
   });
   return {
     subscribe: store.subscribe,
+    initialize: (meetups) => store.set(meetups),
     createMany: (createdMeetups) => {
       store.update((meetups) => {
         return [...createdMeetups, ...meetups];

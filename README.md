@@ -1,9 +1,9 @@
 # Svelte course
 
-This is just a demo application. To make it work, add your unprotected firebase database URL to `0-course-project/src/data/firebase.js`.
+This is just a demo application. To make it work, add your unprotected firebase database URL as follows:
 
 ```js
-// 0-course-project/src/data/firebase.js
+// 0-course-project/src/config/firebase.js
 export const firebase = "https://__your_firebase_url_here__.firebaseio.com";
 ```
 

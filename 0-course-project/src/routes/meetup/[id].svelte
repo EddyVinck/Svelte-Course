@@ -1,12 +1,25 @@
+<script context="module">
+  import { firebase } from "../../config/firebase.js";
+  export async function preload(page) {
+    try {
+      console.dir(page);
+      const { id } = page.params;
+      const res = await this.fetch(`${firebase}/meetups/${id}.json`);
+      if (!res || !res.ok) throw new Error("meetup not found");
+      const data = await res.json();
+      return { meetup: { ...data, id } };
+    } catch (error) {
+      this.error(404, "No such meetup found.");
+    }
+  }
+</script>
+
 <script>
-  import { createEventDispatcher } from "svelte";
-  import Button from "../ui/Button.svelte";
-  import { meetupsStore as meetups } from "./meetups-store.js";
-  export let id = "";
+  import Button from "../../components/ui/Button.svelte";
+  import { meetupsStore as meetups } from "../../components/meetups/meetups-store.js";
+  export let meetup = {};
 
-  let meetup = {};
-
-  meetup = meetups.findById(id);
+  // meetup = meetups.findById(id);
   const {
     title = "",
     subtitle = "",
@@ -14,11 +27,6 @@
     address = "",
     contactEmail = ""
   } = meetup;
-
-  const dispatch = createEventDispatcher();
-  function handleClose(e) {
-    dispatch("close");
-  }
 </script>
 
 <style>
@@ -66,6 +74,6 @@
     <p>{address}</p>
     <p>{description}</p>
     <Button href={`mailto:${contactEmail}`}>Contact</Button>
-    <Button type="button" mode="outline" on:click={handleClose}>Close</Button>
+    <Button href="/" type="button" mode="outline">Close</Button>
   </div>
 </section>
