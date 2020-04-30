@@ -5,6 +5,7 @@
   import Button from "../ui/Button.svelte";
   import Modal from "../ui/Modal.svelte";
   import { isEmpty, isValidEmail } from "../helpers/validation";
+  import { firebase } from "../data/firebase.js";
 
   const dispatch = createEventDispatcher();
   function cancel() {
@@ -79,7 +80,7 @@
     }
   }
 
-  function submitForm() {
+  async function submitForm() {
     if (isFormValid) {
       const meetupData = {
         title: title.value,
@@ -91,10 +92,31 @@
       };
 
       if (isEditingMeetup) {
+        const payload = {
+          method: "PATCH", // use PATCH to only override the values we provide to Firebase
+          body: JSON.stringify({ ...meetupData }),
+          headers: { "Content-Type": "application/json" }
+        };
+        const res = await fetch(`${firebase}/meetups/${id}.json`, payload);
+        if (!res || !res.ok) throw new Error("oh no");
         meetups.findByIdAndUpdate(id, meetupData);
       } else {
         // the meetup is new
-        meetups.createOne(meetupData);
+        try {
+          const payload = {
+            method: "POST",
+            body: JSON.stringify({ ...meetupData, isFavorite: false }),
+            headers: { "Content-Type": "application/json" }
+          };
+          const res = await fetch(`${firebase}/meetups.json`, payload);
+          if (!res || !res.ok) throw new Error("oh no");
+          const data = await res.json();
+          const id = data.name; // from firebase
+
+          meetups.createOne({ ...meetupData, isFavorite: false, id });
+        } catch (error) {
+          console.error(error);
+        }
       }
       dispatch("save");
     }
@@ -137,9 +159,18 @@
     contactEmail.valid &&
     description.valid;
 
-  function handleDelete() {
-    meetups.findByIdAndDelete(id);
-    dispatch("save");
+  async function handleDelete() {
+    try {
+      const payload = {
+        method: "DELETE"
+      };
+      const res = await fetch(`${firebase}/meetups/${id}.json`, payload);
+      if (!res || !res.ok) throw new Error("could not delete meetup");
+      meetups.findByIdAndDelete(id);
+      dispatch("save");
+    } catch (error) {
+      console.error(error);
+    }
   }
 </script>
 

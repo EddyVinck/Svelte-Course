@@ -5,6 +5,7 @@
   import { meetupsStore as meetups } from "./meetups-store.js";
   import Button from "../ui/Button.svelte";
   import Badge from "../ui/Badge.svelte";
+  import { firebase } from "../data/firebase.js";
 
   export let id = "";
   export let title = "";
@@ -16,8 +17,20 @@
   export let isFavorite;
 
   const dispatch = createEventDispatcher();
-  function handleToggleFavorite() {
-    meetups.findByIdAndToggleFavorite(id);
+  async function handleToggleFavorite() {
+    try {
+      const payload = {
+        method: "PATCH", // use PATCH to only override the values we provide to Firebase
+        body: JSON.stringify({ isFavorite: !isFavorite }),
+        headers: { "Content-Type": "application/json" }
+      };
+      const res = await fetch(`${firebase}/meetups/${id}.json`, payload);
+      if (!res || !res.ok) throw new Error("could not toggle favorite");
+      const data = await res.json();
+      meetups.findByIdAndToggleFavorite(id);
+    } catch (error) {
+      console.error(error);
+    }
   }
   function handleShowDetails() {
     console.log("click showing detail");

@@ -1,19 +1,21 @@
 import { writable } from "svelte/store";
-import { exampleMeetups } from "../data/example-meetups.js";
+import { exampleMeetups as _dummyData } from "../data/example-meetups.js";
 
 function createMeetups() {
-  const store = writable([...exampleMeetups], () => {
+  const store = writable([], () => {
     return () => console.log("deleted meetup store");
   });
   return {
     subscribe: store.subscribe,
+    createMany: (createdMeetups) => {
+      store.update((meetups) => {
+        return [...createdMeetups, ...meetups];
+      });
+    },
     createOne: (newMeetup) => {
       store.update((meetups) => {
         // Todo: validate newMeetup shape
-        return [
-          { id: Math.random(), isFavorite: false, ...newMeetup },
-          ...meetups,
-        ];
+        return [newMeetup, ...meetups];
       });
     },
     findById: (id) => {
