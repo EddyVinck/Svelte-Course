@@ -1,5 +1,7 @@
 <script>
   import { createEventDispatcher } from "svelte";
+  import { scale } from "svelte/transition";
+  import { flip } from "svelte/animate";
   import { meetupsStore as meetups } from "./meetups-store.js";
   import Button from "../ui/Button.svelte";
   import Badge from "../ui/Badge.svelte";
@@ -28,6 +30,7 @@
 
 <style>
   article {
+    box-sizing: border-box;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
     border-radius: 5px;
     background: white;

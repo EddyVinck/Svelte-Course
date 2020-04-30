@@ -1,4 +1,5 @@
 <script>
+  import { fly, fade } from "svelte/transition";
   import { createEventDispatcher } from "svelte";
   import Button from "./Button.svelte";
 
@@ -58,8 +59,11 @@
   }
 </style>
 
-<div class="modal-backdrop" on:click={closeModal} />
-<div class="modal">
+<div
+  transition:fade={{ duration: 250 }}
+  class="modal-backdrop"
+  on:click={closeModal} />
+<div transition:fly={{ y: 300, duration: 300 }} class="modal">
   <h1>{title}</h1>
   <div class="content">
     <slot />

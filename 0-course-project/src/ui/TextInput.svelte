@@ -8,6 +8,7 @@
   export let valid = true;
   export let validMessage = `Please enter a valid ${label.toLowerCase()}.`;
   export let touched = false;
+  export let ref = null;
 
   function setTouched() {
     touched = true;
@@ -62,6 +63,7 @@
   {#if controlType === 'textarea'}
     <!-- on:input without a handler gets forwarded to the parent component -->
     <textarea
+      bind:this={ref}
       class:invalid={shouldShowError}
       {id}
       {value}
@@ -69,6 +71,7 @@
       on:blur={setTouched} />
   {:else}
     <input
+      bind:this={ref}
       class:invalid={shouldShowError}
       {type}
       {id}

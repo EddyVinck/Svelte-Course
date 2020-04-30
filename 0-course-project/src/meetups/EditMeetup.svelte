@@ -1,5 +1,5 @@
 <script>
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher, onMount, onDestroy } from "svelte";
   import { meetupsStore as meetups } from "./meetups-store.js";
   import TextInput from "../ui/TextInput.svelte";
   import Button from "../ui/Button.svelte";
@@ -12,6 +12,20 @@
   }
 
   export let id = null;
+
+  let ref = null;
+
+  onMount(() => {
+    if (ref && typeof window !== "undefined") {
+      ref.focus();
+    }
+  });
+
+  onDestroy(() => {
+    if (ref && typeof window !== "undefined") {
+      ref.blur();
+    }
+  });
 
   // this approach is a bit different from the course
   let title = {
@@ -138,6 +152,7 @@
 <Modal title="New meetup" on:cancelmodal>
   <form on:submit|preventDefault={submitForm}>
     <TextInput
+      bind:ref
       {...title}
       on:input={event => (title = setValue(event, title))} />
     <TextInput
