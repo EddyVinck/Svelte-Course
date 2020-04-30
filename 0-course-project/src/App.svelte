@@ -20,7 +20,7 @@
   onMount(async () => {
     try {
       isLoading = true;
-      const res = await fetch(`${firebase}.co/meetups.json`);
+      const res = await fetch(`${firebase}/meetups.json`);
       if (!res || !res.ok) throw new Error("Fetching meetups failed");
       const data = await res.json();
       const meetupsData = Object.keys(data)
